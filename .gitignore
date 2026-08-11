@@ -1,0 +1,27 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# NoMark working files
+*.bak
+*.nomark.tmp
+
+# Generated fixture. Not committed because git line-ending normalisation and
+# editors that trim whitespace would corrupt the very characters it exists to
+# carry. Rebuild with: python examples/make_sample.py
+examples/watermarked_sample.md
+cleaned.md
+
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

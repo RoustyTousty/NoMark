@@ -1,0 +1,22 @@
+{
+  "name": "nomark",
+  "description": "Detect and remove watermarks and fingerprints from text and documents: invisible Unicode, homoglyphs, typographic tells, document metadata, and LLM stylistic signatures.",
+  "version": "0.1.0",
+  "author": {
+    "name": "RoustyTousty"
+  },
+  "homepage": "https://github.com/RoustyTousty/NoMark",
+  "repository": "https://github.com/RoustyTousty/NoMark",
+  "license": "MIT",
+  "keywords": [
+    "watermark",
+    "unicode",
+    "metadata",
+    "privacy",
+    "zero-width",
+    "homoglyph",
+    "docx",
+    "pdf",
+    "sanitize"
+  ]
+}

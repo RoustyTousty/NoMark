@@ -1,0 +1,70 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Windows is included deliberately: its consoles default to a legacy
+        # codepage that cannot encode the characters this tool reports.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.8", "3.11", "3.13"]
+        exclude:
+          - os: macos-latest
+            python-version: "3.8"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Build the sample fixture
+        run: python examples/make_sample.py
+
+      - name: Scan the sample (must find watermarks, so exit 1 is expected)
+        shell: bash
+        run: |
+          python skills/nomark/scripts/scan.py examples/watermarked_sample.md && {
+            echo "::error::scan found nothing in the watermarked sample"
+            exit 1
+          }
+          echo "scan correctly reported findings"
+
+      - name: Clean the sample and confirm it comes back clean
+        shell: bash
+        run: |
+          python skills/nomark/scripts/clean_text.py examples/watermarked_sample.md \
+            > cleaned.md
+          python skills/nomark/scripts/scan.py cleaned.md --show-low || {
+            echo "::error::artefacts remain after cleaning"
+            exit 1
+          }
+          echo "cleaned output scans clean"
+
+      - name: Unified CLI dispatches and gates correctly
+        shell: bash
+        run: |
+          python skills/nomark/scripts/nomark.py --version
+          python skills/nomark/scripts/nomark.py check cleaned.md
+          # The repo's own fixtures are watermarked on purpose, so the gate
+          # must pass once they are excluded and fail when they are not.
+          python skills/nomark/scripts/nomark.py check examples/ && {
+            echo "::error::check did not flag the watermarked fixture"
+            exit 1
+          }
+          python skills/nomark/scripts/nomark.py check . \
+            --exclude 'tests/*' --exclude 'examples/*' \
+            --exclude 'skills/nomark/references/*' --exclude 'README.md'
+          echo "unified CLI behaves"

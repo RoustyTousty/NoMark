@@ -1,0 +1,32 @@
+{
+  "name": "nomark",
+  "owner": {
+    "name": "RoustyTousty",
+    "url": "https://github.com/RoustyTousty"
+  },
+  "metadata": {
+    "description": "Watermark and fingerprint removal for text and documents",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "nomark",
+      "source": "./",
+      "description": "Detect and remove watermarks from text and documents: invisible Unicode (zero-width, tag-block smuggling, variation selectors), homoglyph fingerprints, typographic tells, document metadata (docx/xlsx/pptx/odt/pdf/epub), and LLM stylistic signatures.",
+      "version": "0.1.0",
+      "author": {
+        "name": "RoustyTousty"
+      },
+      "homepage": "https://github.com/RoustyTousty/NoMark",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "watermark",
+        "unicode",
+        "metadata",
+        "privacy",
+        "sanitize"
+      ]
+    }
+  ]
+}

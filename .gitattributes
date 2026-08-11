@@ -1,0 +1,26 @@
+# This repository deliberately stores files containing invisible Unicode
+# (test fixtures, the sample generator, the codepoint reference). Pin line
+# endings to LF everywhere so checkouts are byte-identical on every platform
+# and CI compares like with like.
+#
+# Git's EOL conversion only ever rewrites \n and \r\n, so it cannot damage the
+# zero-width characters, tag-block codepoints, or U+2028 separators these files
+# carry. Pinning it is about reproducibility, not protecting those bytes.
+* text=auto eol=lf
+
+# Windows-only script; keep native endings so cmd.exe reads it correctly.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary formats used as document fixtures must never be transformed.
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.odt  binary
+*.ods  binary
+*.odp  binary
+*.epub binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
